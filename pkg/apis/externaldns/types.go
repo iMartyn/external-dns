@@ -134,6 +134,9 @@ type Config struct {
 	NS1IgnoreSSL                      bool
 	TransIPAccountName                string
 	TransIPPrivateKeyFile             string
+	AfraidOrgEndpoint                 string
+	AfraidOrgUsername                 string
+	AfraidOrgPassword                 string `secure:yes`
 }
 
 var defaultConfig = &Config{
@@ -227,6 +230,9 @@ var defaultConfig = &Config{
 	NS1IgnoreSSL:                false,
 	TransIPAccountName:          "",
 	TransIPPrivateKeyFile:       "",
+	AfraidOrgEndpoint:           "https://freedns.afraid.org/nic/update",
+	AfraidOrgUsername:           "",
+	AfraidOrgPassword:           "",
 }
 
 // NewConfig returns new Config object
@@ -370,6 +376,11 @@ func (cfg *Config) ParseFlags(args []string) error {
 	// Flags related to TransIP provider
 	app.Flag("transip-account", "When using the TransIP provider, specify the account name (required when --provider=transip)").Default(defaultConfig.TransIPAccountName).StringVar(&cfg.TransIPAccountName)
 	app.Flag("transip-keyfile", "When using the TransIP provider, specify the path to the private key file (required when --provider=transip)").Default(defaultConfig.TransIPPrivateKeyFile).StringVar(&cfg.TransIPPrivateKeyFile)
+
+	// Flags related to afraid.org provider
+	app.Flag("afraid-org-endpoint", "Provide the endpoint for the Afraid.org provider").Default(defaultConfig.AfraidOrgEndpoint).StringVar(&cfg.AfraidOrgEndpoint)
+	app.Flag("afraid-org-username", "Provide your username for the Afraid.org provider").Default(defaultConfig.AfraidOrgUsername).StringVar(&cfg.AfraidOrgUsername)
+	app.Flag("afraid-org-password", "Provide your password for the Afraid.org provider").Default(defaultConfig.AfraidOrgPassword).StringVar(&cfg.AfraidOrgPassword)
 
 	// Flags related to policies
 	app.Flag("policy", "Modify how DNS records are synchronized between sources and providers (default: sync, options: sync, upsert-only, create-only)").Default(defaultConfig.Policy).EnumVar(&cfg.Policy, "sync", "upsert-only", "create-only")

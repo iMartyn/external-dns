@@ -96,6 +96,9 @@ var (
 		RcodezeroTXTEncrypt:         false,
 		TransIPAccountName:          "",
 		TransIPPrivateKeyFile:       "",
+		AfraidOrgEndpoint:           "https://freedns.afraid.org/nic/update",
+		AfraidOrgUsername:           "",
+		AfraidOrgPassword:           "",
 	}
 
 	overriddenConfig = &Config{
@@ -173,6 +176,9 @@ var (
 		NS1IgnoreSSL:                true,
 		TransIPAccountName:          "transip",
 		TransIPPrivateKeyFile:       "/path/to/transip.key",
+		AfraidOrgEndpoint:           "https://some.other.url/nic/update",
+		AfraidOrgUsername:           "afraid",
+		AfraidOrgPassword:           "org",
 	}
 )
 
@@ -274,6 +280,9 @@ func TestParseFlags(t *testing.T) {
 				"--ns1-ignoressl",
 				"--transip-account=transip",
 				"--transip-keyfile=/path/to/transip.key",
+				"--afraid-org-username=afraid",
+				"--afraid-org-password=org",
+				"--afraid-org-endpoint=https://some.other.url/nic/update",
 			},
 			envVars:  map[string]string{},
 			expected: overriddenConfig,
@@ -356,6 +365,9 @@ func TestParseFlags(t *testing.T) {
 				"EXTERNAL_DNS_NS1_IGNORESSL":                "1",
 				"EXTERNAL_DNS_TRANSIP_ACCOUNT":              "transip",
 				"EXTERNAL_DNS_TRANSIP_KEYFILE":              "/path/to/transip.key",
+				"EXTERNAL_DNS_AFRAID_ORG_USERNAME":          "afraid",
+				"EXTERNAL_DNS_AFRAID_ORG_PASSWORD":          "org",
+				"EXTERNAL_DNS_AFRAID_ORG_ENDPOINT":          "https://some.other.url/nic/update",
 			},
 			expected: overriddenConfig,
 		},
